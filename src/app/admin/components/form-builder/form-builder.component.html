@@ -1,0 +1,150 @@
+<form [formGroup]="formForm" (ngSubmit)="onSubmit()">
+    <div class="form-header">
+        <h2>{{ isEditMode ? 'Edit Form' : 'Create New Form' }}</h2>
+        <button mat-raised-button color="primary" type="submit">Save Form</button>
+    </div>
+
+    <div class="form-meta">
+        <mat-form-field appearance="fill">
+            <mat-label>Form Title*</mat-label>
+            <input matInput formControlName="title" required>
+            <mat-error *ngIf="formForm.get('title')?.hasError('required')">
+                Form title is required
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Form Description</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+    </div>
+
+    <div class="builder-container">
+        <div class="fields-panel">
+            <h3>Available Fields</h3>
+            <div cdkDropList #fieldsList="cdkDropList" [cdkDropListData]="fieldTypes"
+                [cdkDropListConnectedTo]="[formFieldsList]" class="fields-list">
+                <div *ngFor="let field of fieldTypes" cdkDrag [cdkDragData]="field" class="field-item">
+                    {{field.name}}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-panel">
+            <h3>Form Preview</h3>
+            <div cdkDropList #formFieldsList="cdkDropList" [cdkDropListData]="fields.controls"
+                (cdkDropListDropped)="handleDrop($event)" class="form-fields">
+                <div *ngFor="let field of fields.controls; let i = index" cdkDrag [formGroup]="getFieldFormGroup(i)"
+                    (click)="selectField(i)" [class.selected]="selectedFieldIndex === i" class="form-field">
+
+                    <div class="field-header">
+                        <span>{{ getFieldFormGroup(i).get('label')?.value || 'Unlabeled Field' }}</span>
+                        <button mat-icon-button (click)="removeField(i); $event.stopPropagation()">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+
+                    <div class="field-preview">
+                        <ng-container [ngSwitch]="getFieldFormGroup(i).get('type')?.value">
+                            <!-- Text Input -->
+                            <mat-form-field *ngSwitchCase="'text'" appearance="outline" class="preview-field">
+                                <mat-label>{{ getFieldFormGroup(i).get('label')?.value }}</mat-label>
+                                <input matInput [placeholder]="getFieldFormGroup(i).get('placeholder')?.value"
+                                    [value]="getFieldFormGroup(i).get('defaultValue')?.value"
+                                    [required]="getFieldFormGroup(i).get('required')?.value">
+                            </mat-form-field>
+
+                            <!-- Text Area -->
+                            <mat-form-field *ngSwitchCase="'textarea'" appearance="outline" class="preview-field">
+                                <mat-label>{{ getFieldFormGroup(i).get('label')?.value }}</mat-label>
+                                <textarea matInput [placeholder]="getFieldFormGroup(i).get('placeholder')?.value"
+                                    [value]="getFieldFormGroup(i).get('defaultValue')?.value"
+                                    [required]="getFieldFormGroup(i).get('required')?.value"></textarea>
+                            </mat-form-field>
+
+                            <select *ngSwitchCase="'select'">
+                                <option *ngFor="let opt of getFieldFormGroup(i).get('options')?.value" [value]="opt">{{
+                                    opt }}</option>
+                            </select>
+
+                            <input *ngSwitchCase="'date'" type="date"
+                                [value]="getFieldFormGroup(i).get('defaultValue')?.value">
+
+                            <div *ngSwitchCase="'checkbox'">
+                                <div *ngFor="let opt of getFieldFormGroup(i).get('options')?.value">
+                                    <mat-checkbox
+                                        [checked]="getFieldFormGroup(i).get('defaultValue')?.value?.includes(opt)">
+                                        {{ opt }}
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+
+                            <div *ngSwitchCase="'radio'">
+                                <div *ngFor="let opt of getFieldFormGroup(i).get('options')?.value">
+                                    <input type="radio" [name]="'radio_'+getFieldFormGroup(i).get('id')?.value"
+                                        [value]="opt"
+                                        [checked]="opt === getFieldFormGroup(i).get('defaultValue')?.value">
+                                    {{ opt }}
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="properties-panel" *ngIf="selectedFieldIndex !== null">
+            <h3>Field Properties</h3>
+            <div [formGroup]="getFieldFormGroup(selectedFieldIndex)">
+                <mat-form-field appearance="fill">
+                    <mat-label>Field Type</mat-label>
+                    <mat-select formControlName="type">
+                        <mat-option *ngFor="let type of fieldTypes" [value]="type.type">
+                            {{ type.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Field Label</mat-label>
+                    <input matInput formControlName="label" required>
+                    <mat-error *ngIf="getFieldFormGroup(selectedFieldIndex).get('label')?.hasError('required')">
+                        Label is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-checkbox formControlName="required">Required</mat-checkbox>
+
+                <mat-form-field appearance="fill" *ngIf="!shouldShowOptions(selectedFieldIndex)">
+                    <mat-label>Placeholder</mat-label>
+                    <input matInput formControlName="placeholder">
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" *ngIf="!shouldShowOptions(selectedFieldIndex)">
+                    <mat-label>Default Value</mat-label>
+                    <input matInput formControlName="defaultValue">
+                </mat-form-field>
+
+                <div *ngIf="shouldShowOptions(selectedFieldIndex)">
+                    <h4>Options <span class="required-asterisk"
+                            *ngIf="getFieldFormGroup(selectedFieldIndex).get('required')?.value">*</span></h4>
+                    <div formArrayName="options">
+                        <div *ngFor="let opt of getCheckboxOptions(selectedFieldIndex).controls; let j = index"
+                            class="option-row">
+                            <input matInput [formControlName]="j" placeholder="Option">
+                            <button mat-icon-button (click)="removeOption(selectedFieldIndex, j)">
+                                <mat-icon>clear</mat-icon>
+                            </button>
+                        </div>
+                        <mat-error *ngIf="getFieldFormGroup(selectedFieldIndex).hasError('requiredOptions')">
+                            At least one option is required
+                        </mat-error>
+                        <button mat-button (click)="addOption(selectedFieldIndex, $event)">
+                            <mat-icon>add</mat-icon> Add Option
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

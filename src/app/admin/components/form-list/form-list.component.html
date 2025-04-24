@@ -1,0 +1,38 @@
+<div class="form-list-container">
+    <h2>Manage Forms</h2>
+
+    <button mat-raised-button color="primary" (click)="createNewForm()">
+        Create New Form
+    </button>
+
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Title Column -->
+        <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+            <mat-cell *matCellDef="let form">{{ form.title }}</mat-cell>
+        </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+            <mat-cell *matCellDef="let form">{{ form.description }}</mat-cell>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+            <mat-cell *matCellDef="let form">
+                <a mat-icon-button [routerLink]="['/admin', 'edit-form', form.id]"
+                    *ngIf="(authService.currentUser | async)?.role === 'admin'">
+                    <mat-icon>edit</mat-icon>
+                </a>
+                <button mat-icon-button color="warn" (click)="deleteForm(form.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</div>

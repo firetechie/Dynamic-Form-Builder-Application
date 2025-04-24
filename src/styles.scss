@@ -1,0 +1,68 @@
+/* Shared styles for admin and user components */
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.builder-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.fields-panel,
+.properties-panel {
+    width: 250px;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-panel {
+    flex: 1;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-field {
+    margin-bottom: 1rem;
+}
+
+.required {
+    color: red;
+}
+
+.error {
+    color: red;
+    font-size: 0.8rem;
+}
+
+.success-message {
+    color: green;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+.form-list-container {
+    padding: 1rem;
+}
+
+table {
+    width: 100%;
+}
+
+.submission-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.mat-select-panel {
+    background: white;
+
+    .mat-option-text {
+        color: #333;
+    }
+}

@@ -1,0 +1,10 @@
+nav {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.active {
+    font-weight: bold;
+    color: #3f51b5;
+}

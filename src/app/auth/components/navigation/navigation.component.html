@@ -1,0 +1,15 @@
+<nav *ngIf="authService.isAuthenticated$ | async" class="nav-container">
+    <div class="nav-links">
+        <a routerLink="/" routerLinkActive="active-link">Home</a>
+        <a *ngIf="(authService.currentUser | async)?.role === 'admin'" routerLink="/admin"
+            routerLinkActive="active-link">
+            Admin
+        </a>
+        <a *ngIf="(authService.currentUser | async)?.role === 'user'" routerLink="/user" routerLinkActive="active-link">
+            User
+        </a>
+    </div>
+    <button mat-raised-button color="warn" (click)="authService.logout()">
+        <mat-icon>logout</mat-icon> Logout
+    </button>
+</nav>

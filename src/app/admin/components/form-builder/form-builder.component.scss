@@ -1,0 +1,241 @@
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.builder-container {
+    display: flex;
+    gap: 20px;
+    height: calc(100vh - 200px);
+}
+
+.fields-panel {
+    width: 250px;
+    padding: 15px;
+    border-right: 1px solid #eee;
+
+    .fields-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .field-item {
+        padding: 10px;
+        background: #f5f5f5;
+        border-radius: 4px;
+        cursor: move;
+        transition: all 0.2s;
+
+        &:hover {
+            background: #e0e0e0;
+        }
+    }
+}
+
+.form-panel {
+    flex: 1;
+    padding: 15px;
+
+    .form-fields {
+        min-height: 300px;
+        padding: 15px;
+        border: 2px dashed #ccc;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .form-field {
+        padding: 15px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: move;
+        transition: all 0.2s;
+
+        &.selected {
+            border-color: #3f51b5;
+            box-shadow: 0 0 0 1px #3f51b5;
+        }
+
+        .field-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            align-items: center;
+
+            span {
+                font-weight: 500;
+            }
+        }
+
+        .field-preview {
+            >* {
+                width: 100%;
+            }
+
+            input[type="text"],
+            input[type="date"],
+            textarea,
+            select {
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+            div[ngSwitchCase="checkbox"],
+            div[ngSwitchCase="radio"] {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+
+                div {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+            }
+        }
+    }
+}
+
+.properties-panel {
+    width: 300px;
+    padding: 15px;
+    border-left: 1px solid #eee;
+    overflow-y: auto;
+
+    .field-properties {
+        padding: 15px;
+        background: #f9f9f9;
+        border-radius: 4px;
+        margin-bottom: 15px;
+
+        mat-form-field {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .option-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+
+            input {
+                flex: 1;
+            }
+        }
+    }
+}
+
+.full-width {
+    width: 100%;
+}
+
+.required-asterisk {
+    color: #f44336;
+}
+
+.success-snackbar {
+    background: #4caf50;
+    color: white;
+}
+
+.error-snackbar {
+    background: #f44336;
+    color: white;
+}
+
+.cdk-drag-placeholder {
+    opacity: 0.5;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.field-preview {
+
+    input[type="text"],
+    textarea {
+        width: auto;
+        max-width: 100%;
+        min-width: 200px;
+    }
+
+    textarea {
+        min-height: 80px;
+        resize: vertical;
+    }
+}
+
+.preview-field {
+    width: 100%;
+    margin-bottom: 16px;
+
+    .mat-form-field-wrapper {
+        padding-bottom: 0;
+    }
+}
+
+/* Update the form-fields container */
+.form-fields {
+    min-height: 300px;
+    padding: 15px;
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .form-field {
+        padding: 15px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: move;
+
+        &.selected {
+            border-color: #3f51b5;
+            box-shadow: 0 0 0 1px #3f51b5;
+        }
+    }
+}
+
+
+.required-asterisk {
+    color: #f44336;
+    margin-left: 4px;
+}
+
+.field-preview {
+    input[type="date"] {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .mat-form-field {
+        width: 100%;
+    }
+}
+
+.field-preview {
+    textarea {
+        min-height: 100px;
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        resize: vertical;
+        font-family: inherit;
+        font-size: inherit;
+    }
+}
