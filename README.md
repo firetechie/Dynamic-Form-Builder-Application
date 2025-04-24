@@ -43,8 +43,8 @@ An Angular-based dynamic form builder with role-based access control (Admin/User
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/angular-form-builder.git
-   cd angular-form-builder
+   git clone https://github.com/firetechie/Dynamic-Form-Builder-Application.git
+   cd Dynamic-Form-Builder-Application
 
 2. Install dependencies:
     npm install
