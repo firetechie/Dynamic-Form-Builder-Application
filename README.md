@@ -140,12 +140,13 @@ Symptom: Forms appear but submissions fail for User role
 Identified Problems:
 Missing form ID in submission payload
 Auth guard interference
-Temporary Workaround: None currently
-Solution Approach:
-// Need to:
-// 1. Verify form ID binding in template
-// 2. Adjust auth guard to permit submissions
-// 3. Add role-specific submission handling
+
+- Temporary Workaround: None currently
+- Solution Approach:
+      - Need to:-
+      - 1. Verify form ID binding in template
+      - 2. Adjust auth guard to permit submissions
+      - 3. Add role-specific submission handling
 
 
 
@@ -155,10 +156,8 @@ Solution Approach:
 
 For the form persistence issue, I evaluated:
 
-Approach	                Pros	                            Cons
-NgRx Store	                Centralized state	                Over-engineering for current scope
-Service with ReplaySubject	Better caching	                    Complex lifecycle management
-Current BehaviorSubject	    Simple implementation	            Requires refresh synchronization
+![image](https://github.com/user-attachments/assets/8247c9a7-3bf8-48e9-b7cc-b25b8dc54e65)
+
 
 Decision: Maintained current implementation due to time constraints, with documented workaround.
 ----------------------------------------------------------------------------------------------------
